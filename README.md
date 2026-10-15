@@ -27,6 +27,7 @@ configurations `a1`–`a6`.
 |---|---|
 | `simu_rhReal <p>` | Relative height at percentile `<p>`, simulated directly from the ALS point cloud. This is the reference ("ground truth") RH profile. |
 | `simu_true ground` | Ground elevation derived directly from the ALS point cloud (reference/truth ground elevation). |
+| `simu_ALS cover` | Canopy cover derived directly from the ALS point cloud. |
 | `rh_<p>` / `rh_a{k}_<p>` | GEDI-simulated relative height at percentile `<p>`, for the default algorithm / algorithm `a{k}`, respectively. |
 | `elev_lowestmode[_a{k}]` | Simulated ground elevation estimate from the GEDI waveform, for the default algorithm / algorithm `a{k}`. |
 | `sensitivity[_a{k}]`, `quality_flag[_a{k}]` | GEDI sensitivity and quality flag for the corresponding algorithm. |
@@ -35,6 +36,9 @@ All `rh_*` / `elev_lowestmode*` columns are directly comparable to
 `simu_rhReal <p>` / `simu_true ground` once the elevation offset
 (`elev_lowestmode[...] - simu_true ground`) is applied — this offset
 correction is what `compute_residual()` in `00_functions.R` does.
+
+All `simu_*` columns have been derived using [gediMetric](https://bitbucket.org/StevenHancock/gedisimulator/src/master/):
+
 
 ### Filtering
 
@@ -54,7 +58,7 @@ All figures and tables use the same base filter, implemented once in
 - `sensitivity[_a{k}] >= 0.90` (algorithm-specific; some figures further
   restrict to `> 0.96` or the `[0.90, 0.96]` band)
 - `quality_flag[_a{k}] == 1` (algorithm-specific)
-- `Forest_type` not missing
+- `Forest_type` Corine Land Cover 2018 (revised in 2020)
 
 **`Forest_type_match` filter:** `Forest_type_match == 0` restricts footprints
 to areas where Corine Land Cover (CLC) has data coverage at the footprint
