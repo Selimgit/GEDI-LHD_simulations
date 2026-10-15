@@ -86,3 +86,9 @@ dataset. Users wishing to work with unique shots can use
 | `fig_bias_comparison_count_frac_a3.R` | `PLOTS/bias_count_a3.png`, `PLOTS/bias_frac_a3.png`, `PLOTS/bias_comparison_count_frac_a3.png` |
 | `fig_SEASON_count_default_int_a3.R` | `PLOTS/SEASON_count_default_int_a3.png` + leaf-on/off metrics table |
 | `fig_SEASON_count_a3_frac_a3.R` | `PLOTS/SEASON_count_a3_frac_a3.png` |
+
+
+## License
+
+The analysis scripts in this repository are released under the [MIT License](LICENSE).
+The dataset is released under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
