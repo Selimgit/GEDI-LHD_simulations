@@ -1,0 +1,6 @@
+*.parquet 
+PLOTS/ 
+TABLES/ 
+.Rhistory 
+.RData 
+.Rproj.user/ 
