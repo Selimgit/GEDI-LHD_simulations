@@ -37,7 +37,7 @@ All `rh_*` / `elev_lowestmode*` columns are directly comparable to
 (`elev_lowestmode[...] - simu_true ground`) is applied — this offset
 correction is what `compute_residual()` in `00_functions.R` does.
 
-All `simu_*` columns have been derived using [gediMetric](https://bitbucket.org/StevenHancock/gedisimulator/src/master/):
+All `simu_*` columns have been derived using [gediMetric](https://bitbucket.org/StevenHancock/gedisimulator/src/master/).
 
 
 ### Filtering
