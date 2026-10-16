@@ -68,13 +68,7 @@ CLC-based assignment of `Forest_type` for footprints falling outside direct
 CLC coverage. The manuscript uses `Forest_type_match == 0` throughout for a
 stricter, directly-labeled subset.
 
-### Duplicate simulations
 
-~10% of GEDI shots were simulated twice due to spatial overlap between
-adjacent LiDAR HD tiles. Both simulations are retained in the published
-dataset. Users wishing to work with unique shots can use
-`deduplicate_sims()` in `00_functions.R` (key: the 101 RH values
-`rh_0`..`rh_100` of the original GEDI L2A product).
 
 ## Outputs
 
