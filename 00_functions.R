@@ -64,52 +64,9 @@ get_cfg <- function(weighting, algo) {
 }
 
 
-# ------------------------------------------------------------
-# 2. DUPLICATE SIMULATION HANDLING
-#    Due to spatial overlap between adjacent LiDAR HD tiles,
-#    ~10% of GEDI shots were simulated twice. The published
-#    dataset keeps both simulations (see README.md). These
-#    helpers let users identify or remove them.
-#
-#    Key: the 101 RH values (rh_0..rh_100) of the *original*
-#    GEDI L2A product, which are identical across the two
-#    simulations of the same shot.
-# ------------------------------------------------------------
-
-rh_key_cols <- paste0("rh_", 0:100)
-
-#' Return only the rows that are duplicated on the RH key.
-find_duplicate_sims <- function(df, key_cols = rh_key_cols) {
-  df %>%
-    group_by(across(all_of(key_cols))) %>%
-    filter(n() > 1) %>%
-    ungroup()
-}
-
-#' Collapse duplicate simulations to one row per GEDI shot
-#' (keeps the first occurrence).
-deduplicate_sims <- function(df, key_cols = rh_key_cols) {
-  df %>%
-    distinct(across(all_of(key_cols)), .keep_all = TRUE)
-}
-
-#' Quick report: how many rows / groups are duplicated.
-report_duplicate_sims <- function(df, label = "data", key_cols = rh_key_cols) {
-  n_total <- nrow(df)
-  n_dup   <- df %>%
-    group_by(across(all_of(key_cols))) %>%
-    tally() %>%
-    filter(n > 1) %>%
-    nrow()
-  cat(sprintf("%-8s : %6d rows | %5d duplicated groups | %5.1f%%\n",
-              label, n_total, n_dup,
-              if (n_total > 0) 100 * n_dup / n_total else 0))
-  invisible(n_dup)
-}
-
 
 # ------------------------------------------------------------
-# 3. HARMONIZED BASE FILTER
+# 2. HARMONIZED BASE FILTER
 #    Confirmed correct thresholds:
 #      - simu_ALS cover >= 0   (inclusive lower bound)
 #      - sensitivity[_a{k}]    >= 0.90 (inclusive lower bound)
@@ -120,7 +77,7 @@ report_duplicate_sims <- function(df, label = "data", key_cols = rh_key_cols) {
 
 apply_base_filter <- function(df, cfg,
                               sens_lower = 0.90, sens_upper = NULL,
-                              forest_type_match = 0, deduplicate = FALSE) {
+                              forest_type_match = 0) {
   df <- df %>% filter(
     `simu_ground slope`  >= 0,
     `simu_true ground`   >= 0,
@@ -142,15 +99,8 @@ apply_base_filter <- function(df, cfg,
   if (!is.null(sens_upper)) {
     df <- df %>% filter(.data[[cfg$sens_col]] <= sens_upper)
   }
-  if (deduplicate) {
-    df <- deduplicate_sims(df)
-  }
   df
 }
-
-
-
-
 
 
 

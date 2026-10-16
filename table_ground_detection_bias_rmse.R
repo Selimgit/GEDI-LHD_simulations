@@ -8,7 +8,7 @@
 source("00_functions.R")
 source("01_load_data.R")
 
-df <- raw$int
+df <- raw$count
 
 compute_algo_ground_stats <- function(data, algo) {
   cfg <- make_cfg("int", algo)
